@@ -1,0 +1,12 @@
+mode: set
+github.com/drawiin/go-expert/test/calculator.go:3.41,4.15 1 1
+github.com/drawiin/go-expert/test/calculator.go:4.15,6.3 1 1
+github.com/drawiin/go-expert/test/calculator.go:7.2,7.15 1 1
+github.com/drawiin/go-expert/test/calculator.go:7.15,9.3 1 1
+github.com/drawiin/go-expert/test/calculator.go:10.2,10.15 1 1
+github.com/drawiin/go-expert/test/calculator.go:10.15,12.3 1 1
+github.com/drawiin/go-expert/test/calculator.go:13.2,13.35 1 1
+github.com/drawiin/go-expert/test/calculator.go:13.35,15.3 1 1
+github.com/drawiin/go-expert/test/calculator.go:16.2,16.24 1 1
+github.com/drawiin/go-expert/test/calculator.go:16.24,18.3 1 0
+github.com/drawiin/go-expert/test/calculator.go:19.2,19.10 1 1
