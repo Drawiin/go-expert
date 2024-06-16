@@ -122,6 +122,62 @@ func TestFindAllEmpty(t *testing.T) {
 	assert.Empty(t, result)
 }
 
+func TestFindByID(t *testing.T) {
+	db := CreateProductTestDB(t)
+	productDB := NewProductDB(db)
+	product, _ := entity.NewProduct("product1", 10)
+	db.Create(&product)
+
+	result, err := productDB.FindByID(product.ID.String())
+
+	assert.Nil(t, err)
+	assert.NotNil(t, result)
+	assert.Equal(t, product.Name, result.Name)
+	assert.Equal(t, product.Price, result.Price)
+	assert.Equal(t, product.ID, result.ID)
+}
+
+func TestUpdateProduct(t *testing.T) {
+	db := CreateProductTestDB(t)
+	productDB := NewProductDB(db)
+	product, _ := entity.NewProduct("product1", 10)
+	db.Create(&product)
+
+	product.Name = "product2"
+	product.Price = 20
+
+	err := productDB.Update(product)
+
+	assert.Nil(t, err)
+
+	var productFound entity.Product
+	err = db.First(&productFound, "id = ?", product.ID).Error
+
+	assert.Nil(t, err)
+	assert.NotNil(t, productFound)
+	assert.Equal(t, product.Name, productFound.Name)
+	assert.Equal(t, product.Price, productFound.Price)
+	assert.Equal(t, product.ID, productFound.ID)
+
+}
+
+func TestDeleteProduct(t *testing.T) {
+	db := CreateProductTestDB(t)
+	productDB := NewProductDB(db)
+	product, _ := entity.NewProduct("product1", 10)
+	db.Create(&product)
+
+	err := productDB.Delete(product.ID.String())
+
+	assert.NoError(t, err)
+
+	var productFound entity.Product
+	err = db.First(&productFound, "id = ?", product.ID).Error
+
+	assert.NotNil(t, err)
+	assert.Equal(t, gorm.ErrRecordNotFound, err)
+}
+
 func CreateProductTestDB(t *testing.T) *gorm.DB {
 	db, err := gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
 	if err != nil {

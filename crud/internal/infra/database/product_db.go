@@ -63,8 +63,9 @@ func (db *ProductDB) Update(product *entity.Product) error {
 }
 
 func (db *ProductDB) Delete(id string) error {
-	if _, err := db.FindByID(id); err != nil {
+	product, err := db.FindByID(id)
+	if err != nil {
 		return err
 	}
-	return db.DB.Delete(&entity.Product{}, id).Error
+	return db.DB.Delete(product).Error
 }
