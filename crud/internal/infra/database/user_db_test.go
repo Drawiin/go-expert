@@ -10,7 +10,7 @@ import (
 )
 
 func TestCreateUser(t *testing.T) {
-	db := CreateTestDB(t)
+	db := CreateUserTestDB(t)
 	user, _ := entity.NewUser("John Doe", "j@j.com", "password")
 	userDB := NewUserDB(db)
 
@@ -29,7 +29,7 @@ func TestCreateUser(t *testing.T) {
 }
 
 func TestFindByEmail(t *testing.T) {
-	db := CreateTestDB(t)
+	db := CreateUserTestDB(t)
 	user, _ := entity.NewUser("John Doe", "j@j.com", "password")
 	userDB := NewUserDB(db)
 	userDB.Create(user)
@@ -42,7 +42,7 @@ func TestFindByEmail(t *testing.T) {
 }
 
 func TestFindByEmailNotFound(t *testing.T) {
-	db := CreateTestDB(t)
+	db := CreateUserTestDB(t)
 	user, _ := entity.NewUser("John Doe", "j@j.com", "password")
 	userDB := NewUserDB(db)
 	userDB.Create(user)
@@ -53,7 +53,7 @@ func TestFindByEmailNotFound(t *testing.T) {
 	assert.Nil(t, userFound)
 }
 
-func CreateTestDB(t *testing.T) *gorm.DB {
+func CreateUserTestDB(t *testing.T) *gorm.DB {
 	db, err := gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
 	if err != nil {
 		t.Fatalf("Error connecting to the database: %v", err)
