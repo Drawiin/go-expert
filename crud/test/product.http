@@ -1,7 +1,25 @@
-POST http://localhost:8080/products
+
+### Create new product
+POST http://localhost:8080/products http/1.1
 Content-Type: application/json
 
 {
   "name": "Product 3",
   "price": 100
+}
+
+
+### Get Product By Id
+GET http://localhost:8080/products/3e724ce6-aeb0-4f46-834e-5eaab28c18bd http/1.1
+Content-Type: application/json
+
+{}
+
+### Get Product By Id
+PUT http://localhost:8080/products/3e724ce6-aeb0-4f46-834e-5eaab28c18bd http/1.1
+Content-Type: application/json
+
+{
+  "name": "Product updated",
+  "price": 200,
 }

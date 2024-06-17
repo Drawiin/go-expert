@@ -8,6 +8,8 @@ import (
 	"github.com/drawiin/go-expert/crud/internal/entity"
 	"github.com/drawiin/go-expert/crud/internal/infra/database"
 	"github.com/drawiin/go-expert/crud/internal/infra/webserver/handlers"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -28,6 +30,11 @@ func main() {
 	productDb := database.NewProductDB(db)
 	productHandler := handlers.NewProductHandler(productDb)
 
-	http.HandleFunc("/products", productHandler.CreateProduct)
-	http.ListenAndServe(":8080", nil)
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+	r.Post("/products", productHandler.CreateProduct)
+	r.Get("/products/{id}", productHandler.GetProduct)
+	r.Put("/products/{id}", productHandler.UpdateProduct)
+
+	http.ListenAndServe(":8080", r)
 }
