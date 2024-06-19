@@ -33,8 +33,11 @@ func (db *ProductDB) FindAll(page, limit int, sort string) ([]entity.Product, er
 		sort = "asc"
 	}
 
-	if page <= 0 || limit <= 0 {
+	if page <= 0 {
 		page = 1
+	}
+
+	if limit <= 0 {
 		limit = 10
 	}
 

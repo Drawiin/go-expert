@@ -2,7 +2,10 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
+	"math/rand"
 	"net/http"
+	"strconv"
 
 	"github.com/drawiin/go-expert/crud/internal/dto"
 	"github.com/drawiin/go-expert/crud/internal/entity"
@@ -61,7 +64,23 @@ func (h *ProductHandler) GetProduct(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(p)
 }
 
-/// FIXME - Update product should only update the fields in the resquest
+func (h *ProductHandler) GetAllProducts(w http.ResponseWriter, r *http.Request) {
+	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
+	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
+	sort := r.URL.Query().Get("sort")
+
+	products, err := h.ProductDB.FindAll(page, limit, sort)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(products)
+}
+
+// / FIXME - Update product should only update the fields in the resquest
 func (h *ProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	if id == "" {
@@ -81,7 +100,7 @@ func (h *ProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_, err = h.ProductDB.FindByID(updateProduct.ID.String())
-	if err != nil{
+	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
@@ -92,5 +111,41 @@ func (h *ProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.WriteHeader(http.StatusOK)
+}
+
+func (h *ProductHandler) DeleteProduct(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		w.WriteHeader(http.StatusBadRequest)
+	}
+
+	err := h.ProductDB.Delete(id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func (h *ProductHandler) Seed(w http.ResponseWriter, r *http.Request) {
+	size, err := strconv.Atoi(r.URL.Query().Get("size"))
+	if err != nil {
+		size = 25
+	}
+	for i := 0; i < size; i++ {
+		go func() {
+			product, err := entity.NewProduct(fmt.Sprintf("product%d", i), rand.Float64()*100)
+			if err != nil {
+				panic(err)
+			}
+			err = h.ProductDB.Create(product)
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				return
+			}
+		}()
+	}
 	w.WriteHeader(http.StatusOK)
 }

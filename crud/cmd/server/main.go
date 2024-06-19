@@ -34,7 +34,10 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Post("/products", productHandler.CreateProduct)
 	r.Get("/products/{id}", productHandler.GetProduct)
+	r.Get("/products", productHandler.GetAllProducts)
 	r.Put("/products/{id}", productHandler.UpdateProduct)
+	r.Delete("/products/{id}", productHandler.DeleteProduct)
+	r.Post("/producs/seed", productHandler.Seed)
 
 	http.ListenAndServe(":8080", r)
 }

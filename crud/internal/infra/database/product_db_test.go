@@ -59,7 +59,7 @@ func TestFindAllDesc(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotEmpty(t, result)
 	assert.Equal(t, 10, len(result))
-	assert.Equal(t, fakeProducts[len(fakeProducts) -1].Name, result[0].Name)
+	assert.Equal(t, fakeProducts[len(fakeProducts)-1].Name, result[0].Name)
 }
 
 func TestFindAllNextFullPage(t *testing.T) {
