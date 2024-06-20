@@ -16,7 +16,7 @@ import (
 
 func main() {
 	// LoadConfig function is called to load the configuration values from the .env file
-	_, err := config.LoadConfig(".")
+	config, err := config.LoadConfig(".")
 	if err != nil {
 		log.Fatalf("Error loading config: %v", err)
 	}
@@ -30,6 +30,9 @@ func main() {
 	productDb := database.NewProductDB(db)
 	productHandler := handlers.NewProductHandler(productDb)
 
+	userDb := database.NewUserDB(db)
+	userHandler := handlers.NewUserHandler(userDb, *config.TokenAuth, config.JWTExpiresIn)
+
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Post("/products", productHandler.CreateProduct)
@@ -38,6 +41,10 @@ func main() {
 	r.Put("/products/{id}", productHandler.UpdateProduct)
 	r.Delete("/products/{id}", productHandler.DeleteProduct)
 	r.Post("/producs/seed", productHandler.Seed)
+
+	r.Post("/users/signup", userHandler.CreateUser)
+	r.Post("/users/seed", userHandler.Seed)
+	r.Post("/users/login", userHandler.Login)
 
 	http.ListenAndServe(":8080", r)
 }

@@ -1,0 +1,22 @@
+### Create user
+POST http://localhost:8080/users/signup http/1.1
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "john.doe@gmail.com",
+    "password": "password"
+}
+
+### Seed the database with fake users
+POST http://localhost:8080/users/seed http/1.1
+Content-Type: application/json
+
+### Login user
+POST http://localhost:8080/users/login http/1.1
+Content-Type: application/json
+
+{
+    "email": "john.doe@gmail.com",
+    "password": "password"
+}
