@@ -21,6 +21,17 @@ func NewUserHandler(userDB database.UserDBInterface) *UserHandler {
 	return &UserHandler{UserDB: userDB}
 }
 
+// CreateUser godoc
+// @Summary Create a new user
+// @Description Create a new user
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param user body dto.CreateUserInput true "User object that needs to be created"
+// @Success 201 {object} string
+// @Failure 400 {object} string
+// @Failure 500 {object} string
+// @Router /users [post]
 func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	var user dto.CreateUserInput
 	err := json.NewDecoder(r.Body).Decode(&user)
