@@ -24,7 +24,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/users": {
+        "/users/signup": {
             "post": {
                 "description": "Create a new user",
                 "consumes": [

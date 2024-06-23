@@ -31,7 +31,7 @@ func NewUserHandler(userDB database.UserDBInterface) *UserHandler {
 // @Success 201 {object} string
 // @Failure 400 {object} string
 // @Failure 500 {object} string
-// @Router /users [post]
+// @Router /users/signup [post]
 func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	var user dto.CreateUserInput
 	err := json.NewDecoder(r.Body).Decode(&user)

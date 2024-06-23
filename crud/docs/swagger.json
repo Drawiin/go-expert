@@ -21,7 +21,7 @@
     "host": "localhost:8080",
     "basePath": "/",
     "paths": {
-        "/users": {
+        "/users/signup": {
             "post": {
                 "description": "Create a new user",
                 "consumes": [
