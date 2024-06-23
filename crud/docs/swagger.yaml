@@ -1,0 +1,23 @@
+basePath: /
+host: localhost:8080
+info:
+  contact:
+    email: email@email.com
+    name: API Support
+    url: http://swagger.io/support
+  description: Product API with authentication
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: Go Expert CRUD API
+  version: "1.0"
+paths: {}
+schemes:
+- http
+securityDefinitions:
+  jwt:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
