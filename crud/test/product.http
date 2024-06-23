@@ -21,6 +21,7 @@ Content-Type: application/json
 ### Get All products
 GET http://localhost:8080/products?sort=asc&limit=40 http/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkxNjM2NTksInN1YiI6Ijk0Y2IxMGM3LWI1NGUtNGZhNy1iNjcyLWYxYzk4YjA2OGJkOCJ9.COu1X3zGybL54nmnMuyqSj2UblVrjrRh0U9BjTigds8
 
 
 ### Update product
