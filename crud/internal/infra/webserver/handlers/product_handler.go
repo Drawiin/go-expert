@@ -24,6 +24,18 @@ func NewProductHandler(db database.ProductDBInterface) *ProductHandler {
 	}
 }
 
+// CreateProduct godoc
+// @Summary Create a new product
+// @Description Adds a new product to the database
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param product body dto.CreateProductInput true "Create Product Input"
+// @Success 201 {object} string "Product created successfully"
+// @Failure 400 {object} string "Invalid request"
+// @Failure 500 {object} string "Internal Server Error"
+// @Router /products [post]
+// @Security jwt
 func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	var product dto.CreateProductInput
 	err := json.NewDecoder(r.Body).Decode(&product)
@@ -64,6 +76,19 @@ func (h *ProductHandler) GetProduct(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(p)
 }
 
+// GetAllProducts godoc
+// @Summary Get all products
+// @Description Retrieves a list of products with pagination and sorting
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param page query int false "Page number for pagination"
+// @Param limit query int false "Limit of products per page for pagination"
+// @Param sort query string false "Sort order"
+// @Success 200 {array} []entity.Product "List of products"
+// @Failure 500 {object} string "Internal Server Error"
+// @Router /products [get]
+// @Security jwt
 func (h *ProductHandler) GetAllProducts(w http.ResponseWriter, r *http.Request) {
 	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
 	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
@@ -80,7 +105,20 @@ func (h *ProductHandler) GetAllProducts(w http.ResponseWriter, r *http.Request) 
 	json.NewEncoder(w).Encode(products)
 }
 
-// / FIXME - Update product should only update the fields in the resquest
+// UpdateProduct godoc
+// @Summary Update a product
+// @Description Updates a product by ID
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param id path string true "Product ID"
+// @Param product body entity.Product true "Product object to update"
+// @Success 200 {string} string "OK"
+// @Failure 400 {object} string "Invalid request"
+// @Failure 404 {object} string "Product not found"
+// @Failure 500 {object} string "Internal Server Error"
+// @Router /products/{id} [put]
+// @Security jwt
 func (h *ProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	if id == "" {
@@ -114,6 +152,17 @@ func (h *ProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// DeleteProduct godoc
+// @Summary Delete a product
+// @Description Deletes a product by ID
+// @Tags products
+// @Produce json
+// @Param id path string true "Product ID"
+// @Success 200 {object} string "Product deleted successfully"
+// @Failure 400 {object} string "Bad Request"
+// @Failure 500 {object} string "Internal Server Error"
+// @Router /products/{id} [delete]
+// @Security jwt
 func (h *ProductHandler) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	if id == "" {
@@ -129,6 +178,18 @@ func (h *ProductHandler) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+
+// @Summary Seed the database with products
+// @Description Seeds the database with a specified number of products
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param size query int false "Number of products to create (default: 25)"
+// @Success 200 {string} string "OK"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /products/seed [post]
+// @Security jwt
 func (h *ProductHandler) Seed(w http.ResponseWriter, r *http.Request) {
 	size, err := strconv.Atoi(r.URL.Query().Get("size"))
 	if err != nil {

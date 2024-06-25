@@ -55,6 +55,14 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+// SeedUsers godoc
+// @Summary Seed the database with users
+// @Description Seed application
+// @Tags users
+// @Produce json
+// @Success 201 {object} string
+// @Failure 500 {object} string
+// @Router /users/seed [post]
 func (h *UserHandler) Seed(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < 10; i++ {
 		u, err := entity.NewUser(fmt.Sprintf("user%v", i), fmt.Sprintf("user%v@email.com", i), "123456")
@@ -73,6 +81,17 @@ func (h *UserHandler) Seed(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+// Login godoc
+// @Summary Logs in a user
+// @Description Login
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param user body dto.LoginInput true "User credentials to login"
+// @Success 200 {object} dto.AccessToken
+// @Failure 400 {object} string
+// @Failure 500 {object} string
+// @Router /users/login [post]
 func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	jwt := r.Context().Value("jwt").(*jwtauth.JWTAuth)
 	jwtExpiresIn := r.Context().Value("jwtExpiresIn").(int)
