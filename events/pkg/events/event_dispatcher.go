@@ -15,8 +15,8 @@ func NewEventDispatcher() *EventDispatcher {
 }
 
 func (ed *EventDispatcher) Register(eventName string, handler EventHandlerInterface) error {
-	if _, ok := ed.handlers[eventName]; ok {
-		for _, h := range ed.handlers[eventName] {
+	if handlers, ok := ed.handlers[eventName]; ok {
+		for _, h := range handlers {
 			if h.Id() == handler.Id() {
 				return ErrHandlerAlreadyRegistered
 			}
@@ -24,4 +24,21 @@ func (ed *EventDispatcher) Register(eventName string, handler EventHandlerInterf
 	}
 	ed.handlers[eventName] = append(ed.handlers[eventName], handler)
 	return nil
+}
+
+func (ed *EventDispatcher) Clear() {
+	ed.handlers = map[string][]EventHandlerInterface{}
+}
+
+
+func (ed *EventDispatcher) Has(eventName string, handler EventHandlerInterface) bool { 
+	if handlers, ok := ed.handlers[eventName]; ok {
+		for _, h := range handlers {
+			if h.Id() == handler.Id() {
+				return true
+			}
+		}
+	}
+
+	return false
 }
