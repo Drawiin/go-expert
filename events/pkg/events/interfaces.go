@@ -9,6 +9,7 @@ type EventInterface interface {
 }
 
 type EventHandlerInterface interface {
+	Id() string
 	Handle(event EventInterface)
 }
 
