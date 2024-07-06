@@ -2,7 +2,7 @@ type Category {
   id: ID!
   name: String!
   description: String
-  products: [Course!]!
+  courses: [Course!]!
 }
 
 type Course {
@@ -27,6 +27,7 @@ type Query {
   categories: [Category!]!
   categoryById(id: ID!): Category
   courses: [Course!]!
+  courseById(id: ID!): Course
 }
 
 type Mutation {
