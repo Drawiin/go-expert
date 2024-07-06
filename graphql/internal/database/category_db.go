@@ -56,3 +56,16 @@ func (c *CategoryDB) GetAll() ([]CategoryDB, error) {
 	}
 	return categories, nil
 }
+
+func (c *CategoryDB) GetByCourseID(courseID string) (CategoryDB, error) {
+	row := c.db.QueryRow(
+		`SELECT ct.id, ct.name, ct.description FROM categories ct 
+			JOIN courses cs 
+			ON ct.id = cs.category_id WHERE cs.id = $1`,
+		courseID)
+	err := row.Scan(&c.ID, &c.Name, &c.Description)
+	if err != nil {
+		return CategoryDB{}, err
+	}
+	return *c, nil
+}
