@@ -65,11 +65,14 @@ func (s *CategoryService) CreateCategoryStreamBidirectional(stream pb.CategorySe
 		if err != nil {
 			return err
 		}
-		stream.Send(&pb.Category{
+		err = stream.Send(&pb.Category{
 			Id:          createdCategory.ID,
 			Name:        createdCategory.Name,
 			Description: createdCategory.Description,
 		})
+		if err != nil {
+			return err
+		}
 	}
 }
 
