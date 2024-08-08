@@ -1,0 +1,11 @@
+services:
+  mysql: 
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: courses
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    
