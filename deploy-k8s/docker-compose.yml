@@ -1,0 +1,11 @@
+services:
+  goapp:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mount the current directory to /app in the container so we cna create a development env
+      # then just connect using docker compose goapp sh to start interacting with the container
+
+      - .:/app
+    
