@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: wesleywillians/21-deploy-k8s:latest
+        image: vini65599/goapp:latest
         resources:
           limits:
             memory: "32Mi"
