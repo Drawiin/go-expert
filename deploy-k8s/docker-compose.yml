@@ -1,5 +1,6 @@
 services:
   goapp:
+    # Build the Dockerfile in the current directory
     build: .
     ports:
       - "8080:8080"
@@ -8,4 +9,4 @@ services:
       # then just connect using docker compose goapp sh to start interacting with the container
 
       - .:/app
-    
+  

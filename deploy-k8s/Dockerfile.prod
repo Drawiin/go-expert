@@ -1,12 +1,15 @@
 FROM golang:latest as builder
 WORKDIR /app
 COPY . .
-# Disable CGO for static linking and add ldflags to reduce binary size
+# Ser GOOS to linux to build a binary for linux
+# Disable CGO for static linking 
+# Add ldflags to reduce binary size
+# -o flag to specify the output binary name
 RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-w -s" -o server .
 
 # Copy the binary to the scratch image, this way we have a minimal 
 # image because we don't need the whole OS neither the golang image
 FROM scratch
 COPY --from=builder /app/server .
-# Finally, we run the binary
+# Finally, we run the binary as soon as the container starts
 CMD ["./server"]
